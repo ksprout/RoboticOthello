@@ -47,8 +47,6 @@ def turn_over_stones_if_available(row, col, slope, color, change):
     proponent_i = [-1 for i in range(2)]
     opponent_i = [-1 for i in range(2)]
     targets, my_index = get_target_line(row, col, slope)
-    for target in targets:
-        target[2] = board[target[0]][target[1]]
     for x in range(0, my_index):
         if targets[x][2] == color:
             proponent_i[0] = x
@@ -82,12 +80,12 @@ def get_target_line(row, col, slope):
     my_index = -1
     if slope == 0:
         for i in range(8):
-            targets.append([row, i, 0])
+            targets.append([row, i, board[row][i]])
             if i == col:
                 my_index = i
     elif slope == 2:
         for i in range(8):
-            targets.append([i, col, 0])
+            targets.append([i, col, board[i][col]])
             if i == row:
                 my_index = i
     else:
@@ -95,7 +93,7 @@ def get_target_line(row, col, slope):
             new_row = row + i
             new_col = col + i * slope * -1
             if 0 <= new_row < 8 and 0 <= new_col < 8:
-                targets.append([new_row, new_col, 0])
+                targets.append([new_row, new_col, board[new_row][new_col]])
             if new_row == row and new_col == col:
                 my_index = len(targets) - 1
     return targets, my_index
