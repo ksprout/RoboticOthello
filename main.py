@@ -11,14 +11,8 @@ def put_available(user):
     return False
 
 def display_game_result():
-    count_me = 0
-    count_opponent = 0
-    for i in range(8):
-        for j in range(8):
-            if board[i][j] == 1:
-                count_me += 1
-            elif board[i][j] == -1:
-                count_opponent += 1
+    count_me = sum([row.count(1) for row in board])
+    count_opponent = sum([row.count(-1) for row in board])
     result = '相手の勝ち'
     if count_me > count_opponent:
         result = '自分の勝ち'
