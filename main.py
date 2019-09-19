@@ -19,36 +19,36 @@ def display_game_result():
                 count_me += 1
             elif board[i][j] == -1:
                 count_opponent += 1
-    result = "相手の勝ち"
+    result = '相手の勝ち'
     if count_me > count_opponent:
-        result = "自分の勝ち"
+        result = '自分の勝ち'
     elif count_me == count_opponent:
-        result = "引き分け"
-    print(f"結果は、● が{count_me}枚、○ が{count_opponent}枚で{result}です")
+        result = '引き分け'
+    print(f'結果は、● が{count_me}枚、○ が{count_opponent}枚で{result}です')
 
 def display_board():
-    print(">>>>>>>>>>")
+    print('>>>>>>>>>>')
     for row in board:
         print(' '.join([to_stone(row, i) for i in range(len(row))]))
 
 def to_stone(row, index):
     if row[index] == 0:
-        return "-"
+        return '-'
     elif row[index] == 1:
-        return "●"
+        return '●'
     elif row[index] == -1:
-        return "○"
+        return '○'
     else:
-        return "?"
+        return '?'
 
 def turn_over_stones_if_available(row, col, slope, color, change):
-    """
+    '''
     slope: 対象の傾きを表す。
     0: 水平
     1: 右上がり
     -1: 左上がり
     2: 縦    
-    """
+    '''
     changed = False
     proponent_i = [-1 for i in range(2)]
     opponent_i = [-1 for i in range(2)]
@@ -129,13 +129,13 @@ def main():
     while True:
         if current_user == 1:
             if put_available(1):
-                print("● のターンです")
+                print('● のターンです')
                 params = input().split()
-                if len(params) == 1 and params[0] == "q":
+                if len(params) == 1 and params[0] == 'q':
                     print('終了します')
                     break
                 elif len(params) != 2:
-                    print("入力形式が正しくありません")
+                    print('入力形式が正しくありません')
                     continue
                 if put_stone_if_available(int(params[1]), int(params[0]), current_user, True):
                     display_board()
@@ -143,7 +143,7 @@ def main():
                 else:
                     print('そこには置けません')
             elif put_available(-1):
-                print("置ける場所がないのでスキップします")
+                print('置ける場所がないのでスキップします')
                 current_user *= -1
             else:
                 print('ゲーム終了です')
@@ -160,8 +160,8 @@ def main():
                         current_user *= -1
                         break
             else:
-                print("置ける場所がないのでスキップします")
+                print('置ける場所がないのでスキップします')
                 current_user *= -1
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
