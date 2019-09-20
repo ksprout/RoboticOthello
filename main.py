@@ -43,37 +43,24 @@ def turn_over_stones_if_available(row, col, slope, color, change):
     -1: 左上がり
     2: 縦    
     '''
-    changed = False
-    proponent_i = [-1 for i in range(2)]
-    opponent_i = [-1 for i in range(2)]
-    targets, my_index = get_target_line(row, col, slope)
-    for x in range(0, my_index):
-        if targets[x][2] == color:
-            proponent_i[0] = x
-        elif targets[x][2] == -1 * color:
-            opponent_i[0] = x
+    line, my_index = get_target_line(row, col, slope)
+    r0 = change_stone(line, [x for x in range(0, my_index)[::-1]], color, change)
+    r1 = change_stone(line, [x for x in range(my_index + 1, len(line))], color, change)
+    return r0 or r1
+
+def change_stone(line, indices, color, change):
+    targets = []
+    for i in indices:
+        if line[i][2] == -1 * color:
+            targets.append(line[i])
+        elif line[i][2] == color:
+            for target in targets:
+                if change:
+                    board[target[0]][target[1]] = color
+            return True if len(targets) > 0 else False
         else:
-            proponent_i[0] = -1
-            opponent_i[0] = -1
-    for x in range(my_index + 1, len(targets))[::-1]:
-        if targets[x][2] == color:
-            proponent_i[1] = x
-        elif targets[x][2] == -1 * color:
-            opponent_i[1] = x
-        else:
-            proponent_i[1] = -1
-            opponent_i[1] = -1
-    if proponent_i[0] != -1 and opponent_i[0] == my_index - 1:
-        for i in range(proponent_i[0] + 1, opponent_i[0] + 1):
-            if change:
-                board[targets[i][0]][targets[i][1]] = color
-            changed = True
-    if proponent_i[1] != -1 and opponent_i[1] == my_index + 1:
-        for i in range(opponent_i[1], proponent_i[1]):
-            if change:
-                board[targets[i][0]][targets[i][1]] = color
-            changed = True
-    return changed
+            break
+    return False
 
 def get_target_line(row, col, slope):
     targets = []
