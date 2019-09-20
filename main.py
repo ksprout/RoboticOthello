@@ -25,7 +25,7 @@ def display_game_result():
         result = '自分の勝ち'
     elif count_me == count_opponent:
         result = '引き分け'
-    print(f'結果は、● が{count_me}枚、○ が{count_opponent}枚で{result}です')
+    print(f'結果は、● が{count_me}枚、○ が{count_opponent}枚で{result}です' + ('。おめでとう！！' if count_me > count_opponent else ''))
 
 def display_board():
     print('>>>>>>>>>>')
