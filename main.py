@@ -79,15 +79,11 @@ def get_target_line(row, col, slope):
     targets = []
     my_index = -1
     if slope == 0:
-        for i in range(8):
-            targets.append([row, i, board[row][i]])
-            if i == col:
-                my_index = i
+        targets = [[row, i, board[row][i]] for i in range(8)]
+        my_index = col
     elif slope == 2:
-        for i in range(8):
-            targets.append([i, col, board[i][col]])
-            if i == row:
-                my_index = i
+        targets = [[i, col, board[i][col]] for i in range(8)]
+        my_index = row
     else:
         for i in range(-8, 9):
             new_row = row + i
