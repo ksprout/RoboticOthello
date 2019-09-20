@@ -4,6 +4,13 @@ from time import sleep
 board = [[0 for i in range(8)] for j in range(8)]
 
 def put_available(user):
+    """
+    1箇所でも石を置ける場所があるかどうかを返す
+    Parameters:
+        user int: 石を置くユーザー
+    Returns:
+        bool: 石を置けるかどうか
+    """
     for i in range(8):
         for j in range(8):
             if put_stone_if_available(i, j, user, False):
@@ -36,19 +43,28 @@ def to_stone(row, index):
         return '?'
 
 def turn_over_stones_if_available(row, col, slope, color, change):
-    '''
-    slope: 対象の傾きを表す。
-    0: 水平
-    1: 右上がり
-    -1: 左上がり
-    2: 縦    
-    '''
+    """
+    Parameters:
+        slope int: 対象の傾きを表す
+            0: 水平
+            1: 右上がり
+            -1: 左上がり
+            2: 縦
+        change bool: 変更を反映させるかどうか
+    """
     line, my_index = get_target_line(row, col, slope)
     r0 = change_stone(line, [x for x in range(0, my_index)[::-1]], color, change)
     r1 = change_stone(line, [x for x in range(my_index + 1, len(line))], color, change)
     return r0 or r1
 
 def change_stone(line, indices, color, change):
+    """
+    味方同士で挟まれた石を裏返す
+    Parameters:
+        line [int, int, int][]: 処理対象の直線上にあるマスの行・列・色のリスト
+        indices int[]: lineのうちの対象範囲を保持
+        change bool: 実際に変更を加えるかどうか
+    """
     targets = []
     for i in indices:
         if line[i][2] == -1 * color:
@@ -63,6 +79,14 @@ def change_stone(line, indices, color, change):
     return False
 
 def get_target_line(row, col, slope):
+    """
+    分析対象の直線上にあるマスを配列として返す
+    Parameters:
+        slope int: 直線の傾きを表す。2は傾きが無限大（縦の直線）とみなす
+    Returns:
+        targets [int, int, int][]: マスの行・列・色を保持した配列
+        my_index int: 新たに石を置こうとしているのはtargetsの中の何番目に位置しているか
+    """
     targets = []
     my_index = -1
     if slope == 0:
@@ -95,6 +119,7 @@ def put_stone_if_available(row, col, color, change):
 
 def main():
     print('あなたは ● を置くことができます')
+    # 初期コマ配置
     board[3][3] = 1
     board[3][4] = -1
     board[4][3] = -1
@@ -103,6 +128,7 @@ def main():
     current_user = 1
     while True:
         if current_user == 1:
+            # 自分のターンのとき
             if put_available(1):
                 print('● のターンです')
                 params = input().split()
@@ -125,8 +151,10 @@ def main():
                 display_game_result()
                 break
         else:
+            # 相手のターンのとき
             sleep(1)
             if put_available(-1):
+                # 8×8の全マスをシャッフルに並び替え
                 candidates = [[r, c] for r in range(8) for c in range(8)]
                 random.shuffle(candidates)
                 for candidate in candidates:
