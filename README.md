@@ -1,4 +1,4 @@
-# 🐱Robotic Othello🙊
+# Robotic Othello
 
 オセロの対戦相手になってくれるPythonプログラムを作成してみました。
 
@@ -6,7 +6,7 @@
 
 <br>
 
-## 遊び方🐾
+## 遊び方
 ① プログラムを実行します
 ```
 python main.py
